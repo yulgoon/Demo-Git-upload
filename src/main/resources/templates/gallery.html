@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>file upload</title>
+</head>
+<body>
+    <h1>fileUpload demo page</h1>
+    <hr>
+    <form action="/gallery" method="POST" enctype="multipart/form-data">
+        <input type="text" name="title">
+        <!-- 파일 선택 다이얼로그에서 파일형식 필터링 -->
+        <input type="file" accept="image/*" name="file">
+        <input type="hidden" name="writer" value="iclass">
+        <button>전송</button> <!-- form tag 안의 button은 기본 submit -->
+    </form>
+    <hr>
+    <h2>Gallery List</h2>
+    <p>Gallery 테이블 조회 목록(이미지 포함)</p>
+    <ul>
+        <li th:each="dto: ${list}" style="width: 200px; height: 200px;">
+            <span>[[${dto.title}]]</span>
+            <span>[[${dto.fileNames}]]</span>
+            <!-- upload한 파일(image)을 가져와서 보여주기 => src에는 url만 작성할 수 있습니다. -->
+            <!-- src는 url이기 때문에 th를 사용할 때 @{}로 사용합니다. |를 사용하여 각 변수를 문자열로 연결하도록 합니다. -->
+            <img th:src="|@{/upload}/${dto.fileNames}|" th:alt="${dto.title}" width="100%" height="100%">
+        </li>
+    </ul>
+</body>
+</html>
